@@ -1,9 +1,12 @@
+// plugins/pinia-persist.client.ts
 import { defineNuxtPlugin } from "#app";
-import { getActivePinia } from "pinia";
+import type { Pinia } from "pinia";
 import piniaPluginPersistedstate from "pinia-plugin-persistedstate";
 
-export default defineNuxtPlugin(() => {
-  const pinia = getActivePinia();
+export default defineNuxtPlugin((nuxtApp) => {
+  // Get pinia with proper typing
+  const pinia = nuxtApp.$pinia as Pinia | undefined;
+
   if (pinia) {
     pinia.use(piniaPluginPersistedstate);
   }

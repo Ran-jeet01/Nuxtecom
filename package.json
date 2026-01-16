@@ -25,6 +25,7 @@
     "@iconify-json/ri": "^1.2.7",
     "@nuxt/icon": "2.2.0",
     "@nuxtjs/tailwindcss": "^6.14.0",
+    "@types/node": "^25.0.9",
     "unplugin-icons": "^23.0.1"
   }
 }
