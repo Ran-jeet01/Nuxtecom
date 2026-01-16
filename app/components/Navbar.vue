@@ -2,7 +2,7 @@
 import { ref, onMounted, onUnmounted, computed } from "vue";
 import { useRoute } from "vue-router"; // still needed, but auto-imported in Nuxt
 import icon from "~/assets/khu.png"; // use ~ alias (project root)
-import { useCartStore } from "~/stores/cartStore"; // Pinia store
+import { useCartStore } from "@/stores/cartStore"; // Pinia store
 
 const cartStore = useCartStore();
 

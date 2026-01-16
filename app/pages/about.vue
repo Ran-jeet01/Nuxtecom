@@ -53,7 +53,7 @@
           <div class="about-values">
             <div class="value-card">
               <div class="icon-box">
-                <i class="ri-ruler-2-line"></i>
+                <Icon name="ri:ruler-2-line" size="24" class="text-green-600" />
               </div>
               <div class="value-content">
                 <h4>No Fluff</h4>
@@ -66,7 +66,12 @@
 
             <div class="value-card">
               <div class="icon-box">
-                <i class="ri-shield-check-line"></i>
+                <!-- <i class="ri-shield-check-line"></i> -->
+                <Icon
+                  name="ri:shield-check-line"
+                  size="24"
+                  class="text-green-600"
+                />
               </div>
               <div class="value-content">
                 <h4>Built Tough</h4>
@@ -76,7 +81,7 @@
 
             <div class="value-card">
               <div class="icon-box">
-                <i class="ri-earth-line"></i>
+                <Icon name="ri:earth-line" :size="24" class="text-green-600" />
               </div>
               <div class="value-content">
                 <h4>Honest Work</h4>
