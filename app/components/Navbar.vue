@@ -47,7 +47,6 @@ watch(() => route.path, close);
         <NuxtLink to="/cart" class="nav-link cart-link">
           Cart
           <span v-if="count > 0" class="cart-badge-count">{{ count }}</span>
-          <span v-else class="cart-badge-dot"></span>
         </NuxtLink>
 
         <button
