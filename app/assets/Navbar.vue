@@ -1,91 +1,115 @@
 <script setup lang="ts">
-import { ref, computed, onMounted, onUnmounted, watch } from "vue";
-import { useRoute } from "vue-router";
-import { useCartStore } from "@/stores/cartStore";
+import { ref, onMounted, onUnmounted, computed, watch } from "vue";
+import { useRoute, useNuxtApp } from "#imports"; // or just useRoute if auto-import works
 
-const cart = useCartStore();
+const { $pinia } = useNuxtApp(); // ← key line for SSR safety
+
 const route = useRoute();
+const isHome = computed(() => route.path === "/");
+const isAbout = computed(() => route.path === "/about");
 
-const open = ref(false);
-const y = ref(0);
+const isMenuOpen = ref(false);
+const isScrolled = ref(false);
 
-const solidNav = computed(
-  () => y.value > 40 || !["/", "/about"].includes(route.path)
+const toggleMenu = () => {
+  isMenuOpen.value = !isMenuOpen.value;
+};
+
+const handleScroll = () => {
+  isScrolled.value = window.scrollY > 50;
+};
+
+onMounted(() => {
+  window.addEventListener("scroll", handleScroll, { passive: true });
+});
+
+onUnmounted(() => {
+  window.removeEventListener("scroll", handleScroll);
+});
+
+watch(
+  () => route.path,
+  () => {
+    isMenuOpen.value = false;
+  }
 );
 
-const count = computed(() => cart.items?.length || 0);
+// Safe Pinia access via explicit instance
+const cartCount = computed(() => useCartStore($pinia).items.length ?? 0);
 
-const toggle = () => (open.value = !open.value);
-const close = () => (open.value = false);
-
-const onScroll = () => (y.value = window.scrollY);
-
-onMounted(() => window.addEventListener("scroll", onScroll, { passive: true }));
-onUnmounted(() => window.removeEventListener("scroll", onScroll));
-
-watch(() => route.path, close);
+// Client-only log
+onMounted(() => {
+  console.log("Cart items count:", useCartStore($pinia).items.length);
+});
 </script>
 
 <template>
-  <header :class="['navbar', { solid: solidNav }]">
+  <nav
+    class="navbar"
+    :class="{ scrolled: isScrolled || (!isHome && !isAbout) }"
+  >
     <div class="container navbar-content">
-      <!-- Left side  Store and Product -->
       <div class="nav-left">
         <NuxtLink to="/" class="nav-link">Store</NuxtLink>
         <NuxtLink to="/products" class="nav-link">Product</NuxtLink>
       </div>
 
-      <!-- Center side onlyy Logo -->
-      <NuxtLink to="/" class="logo">
-        Ever
-        <img src="~/assets/khu.png" class="icon" alt="Ever logo" />
-      </NuxtLink>
+      <div class="nav-center">
+        <NuxtLink to="/" class="logo">
+          Ever
+          <img src="~/assets/khu.png" class="icon" alt="Ever logo" />
+        </NuxtLink>
+      </div>
 
-      <!-- Right side  About and Cart) -->
       <div class="nav-right">
         <NuxtLink to="/about" class="nav-link">About Us</NuxtLink>
         <NuxtLink to="/cart" class="nav-link cart-link">
           Cart
-          <span v-if="count > 0" class="cart-badge-count">{{ count }}</span>
+          <span v-if="cartCount > 0" class="cart-badge-count">{{
+            cartCount
+          }}</span>
           <span v-else class="cart-badge-dot"></span>
         </NuxtLink>
-
         <button
           class="mobile-menu-btn"
-          @click="toggle"
+          @click="toggleMenu"
           aria-label="Toggle menu"
         >
-          <i class="ri-menu-4-line"></i>
+          <Icon name="ri:menu-4-line" size="24" />
         </button>
       </div>
     </div>
-  </header>
+  </nav>
 
   <!-- Mobile Sidebar -->
-  <aside :class="['mobile-sidebar', { active: open }]">
+  <div class="mobile-sidebar" :class="{ active: isMenuOpen }">
     <div class="sidebar-header">
-      <button class="close-btn" @click="close" aria-label="Close menu">
-        <i class="ri-close-line"></i>
+      <button class="close-btn" @click="toggleMenu" aria-label="Close menu">
+        <Icon name="ri:close-line" size="32" />
       </button>
     </div>
-
     <div class="sidebar-links">
-      <NuxtLink to="/" class="sidebar-link" @click="close">Store</NuxtLink>
-      <NuxtLink to="/products" class="sidebar-link" @click="close"
+      <NuxtLink to="/" class="sidebar-link" @click="toggleMenu">Store</NuxtLink>
+      <NuxtLink to="/products" class="sidebar-link" @click="toggleMenu"
         >Product</NuxtLink
       >
-      <NuxtLink to="/about" class="sidebar-link" @click="close"
+      <NuxtLink to="/about" class="sidebar-link" @click="toggleMenu"
         >About Us</NuxtLink
       >
-      <NuxtLink to="/cart" class="sidebar-link" @click="close">
-        Cart <span v-if="count > 0">({{ count }})</span>
+      <NuxtLink to="/cart" class="sidebar-link" @click="toggleMenu">
+        Cart <span v-if="cartCount > 0">({{ cartCount }})</span>
       </NuxtLink>
     </div>
-  </aside>
+  </div>
 
-  <!-- Backdrop -->
-  <div v-if="open" class="sidebar-backdrop" @click="close" />
+  <div
+    class="sidebar-backdrop"
+    :class="{ active: isMenuOpen }"
+    @click="toggleMenu"
+  ></div>
 </template>
+
+<!-- Your <style scoped> remains the same -->
 
 <style scoped>
 .icon {
@@ -105,10 +129,10 @@ watch(() => route.path, close);
   align-items: center;
   color: white;
 }
-.navbar.solid {
-  background: rgba(0, 0, 0, 0.75);
-  backdrop-filter: blur(12px);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+
+.navbar.scrolled {
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(10px);
 }
 
 .navbar-content {
