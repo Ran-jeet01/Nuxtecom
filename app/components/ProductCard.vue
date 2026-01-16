@@ -1,12 +1,9 @@
 <script setup lang="ts">
 import type { ProductDataType } from "@/types/product";
 
-const props = withDefaults(
-  defineProps<{
-    product: ProductDataType;
-  }>(),
-  {}
-);
+const { product } = defineProps<{
+  product: ProductDataType;
+}>();
 
 const emit = defineEmits<{
   (e: "add-to-cart", product: ProductDataType): void;
@@ -16,15 +13,19 @@ const emit = defineEmits<{
 <template>
   <div class="product-card">
     <div class="product-img-box">
-      <img :src="props.product.image" :alt="props.product.title" />
+      <img
+        :src="product.image"
+        :alt="product.title || 'Product image'"
+        loading="lazy"
+      />
     </div>
     <div class="product-info">
-      <h3>{{ props.product.title }}</h3>
+      <h3>{{ product.title }}</h3>
       <div class="product-action">
-        <span class="price">{{ props.product.price }}</span>
+        <span class="price">{{ product.price }}</span>
         <button
           class="btn btn-primary addToCart"
-          @click="emit('add-to-cart', props.product)"
+          @click="emit('add-to-cart', product)"
         >
           Add to Cart
         </button>
@@ -69,10 +70,6 @@ const emit = defineEmits<{
 
 .product-card:hover .product-img-box img {
   transform: scale(1.05);
-}
-
-.product-overlay {
-  display: none;
 }
 
 .addToCart {
