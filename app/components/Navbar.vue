@@ -54,7 +54,9 @@ watch(() => route.path, close);
           @click="toggle"
           aria-label="Toggle menu"
         >
-          <i class="ri-menu-4-line"></i>
+          <Icon name="ri:menu-4-line" size="24" />
+
+          <i class="ri-"></i>
         </button>
       </div>
     </div>
@@ -64,7 +66,8 @@ watch(() => route.path, close);
   <aside :class="['mobile-sidebar', { active: open }]">
     <div class="sidebar-header">
       <button class="close-btn" @click="close" aria-label="Close menu">
-        <i class="ri-close-line"></i>
+        <Icon name="ri:close-line" size="24" />
+        <!-- <Icon icon="ri-menu-4-line" width="24" height="24" /> -->
       </button>
     </div>
 

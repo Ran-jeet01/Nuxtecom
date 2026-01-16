@@ -1,29 +1,13 @@
-// // // https://nuxt.com/docs/api/configuration/nuxt-config
-// // export default defineNuxtConfig({
-// //   compatibilityDate: "2025-07-15",
-// //   devtools: { enabled: true },
-// //   modules: ["@nuxtjs/tailwindcss", "@nuxt/icon", "@pinia/nuxt",'pinia-plugin-persistedstate/nuxt'],
-// //   piniaPluginPersistedstate: {
-// //     storage: "localStorage", // or 'cookies' if small data
-// //   },
-// // });
-// // https://nuxt.com/docs/api/configuration/nuxt-config
-// export default defineNuxtConfig({
-//   compatibilityDate: "2025-07-15",
-//   devtools: { enabled: true },
-//   modules: [
-//     "@nuxtjs/tailwindcss",
-//     "@nuxt/icon",
-//     "@pinia/nuxt",
-//     "pinia-plugin-persistedstate/nuxt", // correct module name
-//   ],
-//   piniaPluginPersistedstate: {
-//     // storage: "localStorage",
-//     storage: process.client ? window.localStorage : undefined,
-//   },
-// });
+import Icons from "unplugin-icons/vite";
+
 export default defineNuxtConfig({
   compatibilityDate: "2025-07-15",
   devtools: { enabled: true },
-  modules: ["@nuxtjs/tailwindcss", "@nuxt/icon", "@pinia/nuxt"],
+  modules: ["@nuxtjs/tailwindcss", "@pinia/nuxt", "@nuxt/icon"],
+  icon: {
+    // Ensures local collections are prioritized (you already installed ri & mdi)
+    serverBundle: {
+      collections: ["ri", "mdi"], // optional but recommended
+    },
+  },
 });
