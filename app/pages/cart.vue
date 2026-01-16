@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { RouterLink } from "vue-router";
 import EmptyCart from "@/components/EmptyCart.vue";
 import { ref, onMounted, computed } from "vue";
 import { useCartStore } from "@/stores/cartStore";
@@ -40,11 +39,11 @@ const decreaseQuantity = cartStore.decreaseQuantity;
             <div class="item-actions">
               <div class="quantity-controls">
                 <button class="qty-btn" @click="decreaseQuantity(item.id)">
-                  <i class="ri-subtract-line"></i>
+                  <Icon name="ri:subtract-line" size="24" />
                 </button>
                 <span class="qty-display">{{ item.quantity }}</span>
                 <button class="qty-btn" @click="increaseQuantity(item.id)">
-                  <i class="ri-add-line"></i>
+                  <Icon name="ri:add-line" size="24" />
                 </button>
               </div>
               <button class="remove-btn" @click="removeFromCart(item.id)">

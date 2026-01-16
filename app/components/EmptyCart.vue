@@ -1,6 +1,4 @@
-<script setup>
-import { RouterLink } from "vue-router";
-</script>
+<script setup></script>
 
 <template>
   <div class="page-container container main-padding">
@@ -8,8 +6,8 @@ import { RouterLink } from "vue-router";
     <div class="empty-cart-state">
       <i class="ri-shopping-cart-2-line cart-icon"></i>
       <p class="cart-msg">Your cart is currently empty.</p>
-      <RouterLink to="/products" class="btn btn-primary start-shopping-btn"
-        >Start Shopping</RouterLink
+      <NuxtLink to="/products" class="btn btn-primary start-shopping-btn"
+        >Start Shopping</NuxtLink
       >
     </div>
   </div>

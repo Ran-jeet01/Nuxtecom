@@ -46,7 +46,6 @@ onMounted(async () => {
             inspire and endure. Limited edition pieces available now.
           </p>
           <div class="hero-cta">
-            <!-- Use NuxtLink instead of RouterLink -->
             <NuxtLink to="/products" class="btn btn-primary">
               Shop Collection
             </NuxtLink>
