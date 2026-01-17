@@ -1,4 +1,4 @@
 <template>
   <Navbar />
-  <NuxtPage />
+  <slot />
 </template>
